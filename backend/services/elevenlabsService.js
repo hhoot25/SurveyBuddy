@@ -7,7 +7,7 @@ async function generateSpeech(text, outputPath) {
   try {
     const response = await axios({
       method: 'post',
-      url: `https://api.elevenlabs.io/v1/text-to-speech/${process.env.ELEVENLABS_VOICE_ID}`,
+      url: `https://api.elevenlabs.io/v1/text-to-speech/${process.env.ELEVENLABS_VOICE_ID}?output_format=mp3_44100_128`,
       headers: {
         'Accept': 'audio/mpeg',
         'xi-api-key': process.env.ELEVENLABS_API_KEY,
@@ -15,7 +15,7 @@ async function generateSpeech(text, outputPath) {
       },
       data: {
         text: text,
-        model_id: 'eleven_monolingual_v1',
+        model_id: 'eleven_multilingual_v2',
         voice_settings: {
           stability: 0.5,
           similarity_boost: 0.5
@@ -26,9 +26,14 @@ async function generateSpeech(text, outputPath) {
 
     // Save audio file
     fs.writeFileSync(outputPath, response.data);
+    console.log(`✅ ElevenLabs TTS generated: ${outputPath} (${response.data.length} bytes)`);
     return outputPath;
   } catch (error) {
-    console.error('Error generating speech with ElevenLabs:', error.response?.data || error.message);
+    console.error('❌ Error generating speech with ElevenLabs:', error.response?.data || error.message);
+    if (error.response) {
+      console.error('Status:', error.response.status);
+      console.error('Headers:', error.response.headers);
+    }
     throw error;
   }
 }

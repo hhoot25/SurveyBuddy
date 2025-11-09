@@ -6,14 +6,14 @@ const client = twilio(
 );
 
 // Initiate an outbound call
-async function initiateCall(toPhoneNumber, webhookUrl) {
+async function initiateCall(toPhoneNumber, webhookUrl, baseUrl) {
   try {
     const call = await client.calls.create({
       to: toPhoneNumber,
       from: process.env.TWILIO_PHONE_NUMBER,
       url: webhookUrl,
       method: 'POST',
-      statusCallback: `${webhookUrl}/status`,
+      statusCallback: `${baseUrl}/api/webhook/voice/status`,
       statusCallbackMethod: 'POST'
     });
     

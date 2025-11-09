@@ -89,7 +89,7 @@ app.post('/api/surveys/:id/call', async (req, res) => {
     const webhookUrl = `${baseUrl}/api/webhook/voice?surveyId=${survey._id}&responseId=${response._id}`;
     
     // Initiate the call
-    const callSid = await initiateCall(survey.phoneNumber, webhookUrl);
+    const callSid = await initiateCall(survey.phoneNumber, webhookUrl, baseUrl);
     
     // Update response with call SID
     response.callSid = callSid;
@@ -185,14 +185,26 @@ app.post('/api/webhook/voice', async (req, res) => {
       });
       await response.save();
       
-      // Play AI response
-      twiml.say({ voice: 'Polly.Joanna' }, aiResponse);
+      // Generate and play AI response using ElevenLabs
+      const aiAudioFilename = `ai-response-${CallSid}-${Date.now()}.mp3`;
+      const aiAudioUrl = await generateSpeechUrl(aiResponse, aiAudioFilename);
+      
+      // Get base URL for audio playback
+      const baseUrl = req.protocol + '://' + req.get('host');
+      twiml.play(`${baseUrl}${aiAudioUrl}`);
       twiml.pause({ length: 1 });
     }
     
     // Check if there are more questions
     if (session.currentQuestionIndex < survey.questions.length) {
       const nextQuestion = survey.questions[session.currentQuestionIndex];
+      
+      // Generate audio for the question using ElevenLabs
+      const questionAudioFilename = `question-${CallSid}-${session.currentQuestionIndex}-${Date.now()}.mp3`;
+      const questionAudioUrl = await generateSpeechUrl(nextQuestion, questionAudioFilename);
+      
+      // Get base URL for audio playback
+      const baseUrl = req.protocol + '://' + req.get('host');
       
       // Gather speech response
       twiml.gather({
@@ -201,14 +213,19 @@ app.post('/api/webhook/voice', async (req, res) => {
         method: 'POST',
         speechTimeout: 'auto',
         speechModel: 'experimental_conversations'
-      }).say({ voice: 'Polly.Joanna' }, nextQuestion);
+      }).play(`${baseUrl}${questionAudioUrl}`);
       
       // Update session
       session.currentQuestionIndex++;
       callSessions.set(CallSid, session);
     } else {
-      // All questions answered
-      twiml.say({ voice: 'Polly.Joanna' }, 'Thank you for completing the survey. Goodbye!');
+      // All questions answered - generate goodbye message using ElevenLabs
+      const goodbyeAudioFilename = `goodbye-${CallSid}-${Date.now()}.mp3`;
+      const goodbyeAudioUrl = await generateSpeechUrl('Thank you for completing the survey. Goodbye!', goodbyeAudioFilename);
+      
+      // Get base URL for audio playback
+      const baseUrl = req.protocol + '://' + req.get('host');
+      twiml.play(`${baseUrl}${goodbyeAudioUrl}`);
       twiml.hangup();
       
       // Mark response as completed

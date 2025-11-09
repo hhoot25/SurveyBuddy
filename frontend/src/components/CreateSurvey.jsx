@@ -4,8 +4,8 @@ const API_URL = 'http://localhost:3001/api';
 
 function CreateSurvey() {
 
-  const [phoneNumber, setPhoneNumber] = useState(import.meta.env.VITE_DEFAULT_PHONE || '');
-  const [questions, setQuestions] = useState([import.meta.env.VITE_DEFAULT_QUESTION] || ['']);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [questions, setQuestions] = useState(['']);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [ngrokUrl, setNgrokUrl] = useState('https://finn-overspeedy-noriko.ngrok-free.dev');
