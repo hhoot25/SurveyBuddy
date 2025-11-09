@@ -58,7 +58,3 @@ coverage/
 QUICK_START.md  
 SETUP.md
 
-# default survey values
-VITE_DEFAULT_PHONE='+14699755763'
-VITE_DEFAULT_NGROK_URL=https://finn-overspeedy-noriko.ngrok-free.dev
-VITE_DEFAULT_QUESTION=What is your first name?

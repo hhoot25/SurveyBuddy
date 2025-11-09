@@ -54,7 +54,7 @@ An AI-powered phone survey system that conducts empathetic, conversational surve
 4. **Start services**
    ```bash
    # Terminal 1: MongoDB
-   mongod
+   mongosh
 
    # Terminal 2: Backend
    cd backend
