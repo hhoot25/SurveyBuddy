@@ -1,15 +1,15 @@
-# SurveyBuddy 🎤📞
+# SurveyBuddy 
 
 An AI-powered phone survey system that conducts empathetic, conversational surveys over the phone using advanced AI technologies.
 
 ## Features
 
-✨ **AI-Powered Conversations**: Uses OpenAI's GPT to generate empathetic, contextual responses to survey answers
-🎯 **Automated Phone Calls**: Twilio integration for automated outbound survey calls
-🗣️ **Natural Voice**: ElevenLabs text-to-speech for personalized, natural-sounding voice
-👂 **Speech Recognition**: OpenAI Whisper for accurate transcription of spoken responses
-📊 **Easy Management**: Web interface to create surveys, initiate calls, and download responses
-💾 **JSON Export**: Download survey responses in JSON format for easy analysis
+ **AI-Powered Conversations**: Uses OpenAI's GPT to generate empathetic, contextual responses to survey answers
+ **Automated Phone Calls**: Twilio integration for automated outbound survey calls
+ **Natural Voice**: ElevenLabs text-to-speech for personalized, natural-sounding voice
+ **Speech Recognition**: OpenAI Whisper for accurate transcription of spoken responses
+ **Easy Management**: Web interface to create surveys, initiate calls, and download responses
+ **JSON Export**: Download survey responses in JSON format for easy analysis
 
 ## Tech Stack
 
@@ -169,11 +169,3 @@ This project was created for HackUTD 2025. Contributions and suggestions are wel
 
 MIT
 
-## Acknowledgments
-
-- Built with ❤️ for HackUTD 2025
-- Powered by Twilio, OpenAI, and ElevenLabs
-
----
-
-**Happy Surveying!** 🎉
